@@ -6,6 +6,8 @@ from discord.ext import commands
 from config.secrets import *
 from utils.checks import embed_perms, cmd_prefix_len
 import logging
+from urllib import parse
+from urllib.request import Request, urlopen
 
 logger = logging.getLogger('discord')
 
