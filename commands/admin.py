@@ -26,18 +26,8 @@ class Admin(commands.Cog):
     @commands.has_role("Vanir")
     async def restart(self, ctx):
         """Restarts the bot."""
-        def check(msg):
-            if msg:
-                return (msg.content.lower().strip() == 'y' or msg.content.lower().strip() == 'n') and msg.author == self.bot.user
-            else:
-                return False
-
         latest = update_bot(True)
         if latest:
-            await ctx.send('There is an update available for the bot.')
-        #     reply = await self.bot.wait_for("message", check=check)
-        #     with open('restart.txt', 'w', encoding="utf8") as re:
-        #         re.write(str(ctx.message.channel.id))
             g = git.cmd.Git(working_dir=os.getcwd())
             g.execute(["git", "pull", "origin", "master"])
             try:
@@ -58,3 +48,18 @@ class Admin(commands.Cog):
         # if self.bot.subpro:
         #     self.bot.subpro.kill()
         os._exit(0)
+
+    @commands.command(pass_context=True, aliases=['updawg'])
+    @commands.has_role("Vanir")
+    async def update(self, ctx):
+        latest = update_bot(True)
+        if latest:
+            g = git.cmd.Git(working_dir=os.getcwd())
+            g.execute(["git", "pull", "origin", "master"])
+            try:
+                await ctx.send(content=None, embed=latest)
+            except:
+                pass
+            await ctx.send('Downloading update...')
+        else:
+            await ctx.send('No updates available.')
