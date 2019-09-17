@@ -6,10 +6,15 @@ from commands.basic import *
 from commands.admin import *
 from utils.checks import load_config
 
+import logging
+
+logger = logging.getLogger('discord')
+logger.setLevel(logging.DEBUG)
+
 class SirCharles(Bot):
     async def on_ready(self):
-        print('Connected!')
-        print('Username: {0.name}\nID: {0.id}'.format(self.user))
+        logger.info('Connected!')
+        logger.info('Username: {0.name}\nID: {0.id}'.format(self.user))
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
         await channel.send("I'm alive!")        
 
@@ -25,6 +30,7 @@ class SirCharles(Bot):
         await channel.send(fmt.format(before, after))
 
     async def on_error(self, event, *args, **kwargs):
+        logger.error('Connected!')
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
         await channel.send("{}".format(event))        
 
