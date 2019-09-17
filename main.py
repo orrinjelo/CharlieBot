@@ -36,11 +36,12 @@ class SirCharles(Bot):
             await guild.system_channel.send(to_send)
 
     async def on_message(self, message):
-        if message.author.id == 482326700475285505: # Charlie
+        super(Bot, self).on_message(message)
+        if message.author.id == CHARLIE_ID: # Charlie
             return
         # logger.debug("{}".format(message))
-        if message.channel.id == 411275745134903307: # bot-lobby
-            if 'cat' in message.content:
+        if message.channel.id == BOT_LOBBY_CHANNEL: # bot-lobby
+            if 'cat' in message.content.lower() or 'kitty' in message.content.lower():
                 await message.add_reaction("🐈")
 
     async def on_message_edit(self, before, after):
