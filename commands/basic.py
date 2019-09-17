@@ -2,6 +2,7 @@ import discord
 import asyncio
 import random
 import aiohttp
+import re
 from discord.ext import commands
 from config.secrets import *
 from utils.checks import embed_perms, cmd_prefix_len
