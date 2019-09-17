@@ -10,7 +10,7 @@ class Admin(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=["mute", "silence", "doom"])
-    @commands.has_role("Vanir")
+    @commands.has_role("Aesir")
     async def hellfire(self, ctx, member: discord.Member):
         if member.id == 189761449013280768:
             await ctx.send("No.")
@@ -63,3 +63,21 @@ class Admin(commands.Cog):
             await ctx.send('Downloading update...')
         else:
             await ctx.send('No updates available.')
+
+    @commands.command(pass_context=True)
+    @commands.has_role("Aesir")
+    async def kick(self, ctx, user, *, reason=""):
+        """Kicks a user (if you have the permission)."""
+        user = get_user(ctx.message, user)
+        if user:
+            try:
+                await user.kick(reason=reason)
+                return_msg = "Kicked user `{}`".format(user.mention)
+                if reason:
+                    return_msg += " for reason `{}`".format(reason)
+                return_msg += "."
+                await ctx.message.edit(content=return_msg)
+            except discord.Forbidden:
+                await ctx.message.edit(content='Could not kick user. Not enough permissions.')
+        else:
+            return await ctx.message.edit(content='Could not find user.')

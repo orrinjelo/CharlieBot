@@ -9,8 +9,6 @@ from systemd.journal import JournaldLogHandler
 import logging
 
 logger = logging.getLogger('discord')
-# get an instance of the logger object this module will use
-logger = logging.getLogger(__name__)
 
 # instantiate the JournaldLogHandler to hook into systemd
 journald_handler = JournaldLogHandler()
@@ -37,15 +35,25 @@ class SirCharles(Bot):
             to_send = 'Welcome {0.mention} to {1.name}!'.format(member, guild)
             await guild.system_channel.send(to_send)
 
+    async def on_message(self, message):
+        if message.author == 482326700475285505:
+            return
+        await message.add_reaction(":cat:")
+
     async def on_message_edit(self, before, after):
         fmt = '**{0.author}** edited their message:\n{0.content} -> {1.content}'
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
         await channel.send(fmt.format(before, after))
 
+    async def on_command_error(self, event, *args, **kwargs):
+        logger.error('Connected!')
+        channel = self.get_channel(BOT_DEBUG_CHANNEL)
+        await channel.send("{}".format(event))
+
     async def on_error(self, event, *args, **kwargs):
         logger.error('Connected!')
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
-        await channel.send("{}".format(event))        
+        await channel.send("{}".format(event))
 
 
 bot = SirCharles(load_config()['cmd_prefix'])
