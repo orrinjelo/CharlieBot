@@ -32,29 +32,27 @@ class Admin(commands.Cog):
                 return False
 
         latest = update_bot(True)
-        # if latest:
-        #     await ctx.send('There is an update available for the bot. Download and apply the update on restart? (y/n)')
+        if latest:
+            await ctx.send('There is an update available for the bot.')
         #     reply = await self.bot.wait_for("message", check=check)
         #     with open('restart.txt', 'w', encoding="utf8") as re:
         #         re.write(str(ctx.message.channel.id))
-        #     if not reply or reply.content.lower().strip() == 'n':
-        #         print('Restarting...')
-        #         await ctx.send('Restarting...')
-        #     else:
-        #         try:
-        #             await ctx.send(content=None, embed=latest)
-        #         except:
-        #             pass
-        #         with open('quit.txt', 'w', encoding="utf8") as q:
-        #             q.write('update')
-        #         print('Downloading update and restarting...')
-        #         await ctx.send('Downloading update and restarting (check your console to see the progress)...')
+            g = git.cmd.Git(working_dir=os.getcwd())
+            g.execute(["git", "pull", "origin", "master"])
+            try:
+                await ctx.send(content=None, embed=latest)
+            except:
+                pass
+            with open('quit.txt', 'w', encoding="utf8") as q:
+                q.write('update')
+            print('Downloading update and restarting...')
+            await ctx.send('Downloading update and restarting (check your console to see the progress)...')
 
-        # else:
-        print('Restarting...')
-        with open('restart.txt', 'w', encoding="utf8") as re:
-            re.write(str(ctx.message.channel.id))
-        await ctx.send('Restarting...')
+        else:
+            print('Restarting...')
+            with open('restart.txt', 'w', encoding="utf8") as re:
+                re.write(str(ctx.message.channel.id))
+            await ctx.send('Restarting...')
 
         # if self.bot.subpro:
         #     self.bot.subpro.kill()
