@@ -23,6 +23,7 @@ class Admin(commands.Cog):
         await member.add_roles(role)
 
     @commands.command(pass_context=True, aliases=['reboot'])
+    @commands.has_role("Vanir")
     async def restart(self, ctx):
         """Restarts the bot."""
         def check(msg):
