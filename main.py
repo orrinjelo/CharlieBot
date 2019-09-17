@@ -24,6 +24,11 @@ class SirCharles(Bot):
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
         await channel.send(fmt.format(before, after))
 
+    async def on_error(self, event, *args, **kwargs):
+        channel = self.get_channel(BOT_DEBUG_CHANNEL)
+        await channel.send("{}".format(event))        
+
+
 bot = SirCharles(load_config()['cmd_prefix'])
 
 bot.add_cog(Basic(bot))
