@@ -35,14 +35,15 @@ class SirCharles(Bot):
             to_send = 'Welcome {0.mention} to {1.name}!'.format(member, guild)
             await guild.system_channel.send(to_send)
 
-    async def on_message(self, message):
-        super(Bot, self).on_message(message)
-        if message.author.id == CHARLIE_ID: # Charlie
-            return
-        # logger.debug("{}".format(message))
-        if message.channel.id == BOT_LOBBY_CHANNEL: # bot-lobby
-            if 'cat' in message.content.lower() or 'kitty' in message.content.lower():
-                await message.add_reaction("🐈")
+    # async def on_message(self, message):
+    #     ret = super(Bot, self).on_message(message)
+    #     if message.author.id == CHARLIE_ID: # Charlie
+    #         return ret
+    #     # logger.debug("{}".format(message))
+    #     if message.channel.id == BOT_LOBBY_CHANNEL: # bot-lobby
+    #         if 'cat' in message.content.lower() or 'kitty' in message.content.lower():
+    #             await message.add_reaction("🐈")
+    #     return ret
 
     async def on_message_edit(self, before, after):
         fmt = '**{0.author}** edited their message:\n{0.content} -> {1.content}'
