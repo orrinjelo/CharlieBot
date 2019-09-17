@@ -38,7 +38,8 @@ class SirCharles(Bot):
     async def on_message(self, message):
         if message.author == 482326700475285505:
             return
-        await message.add_reaction(":cat:")
+        logger.debug("{}".format(message))
+        await message.add_reaction("🐈")
 
     async def on_message_edit(self, before, after):
         fmt = '**{0.author}** edited their message:\n{0.content} -> {1.content}'
@@ -48,12 +49,12 @@ class SirCharles(Bot):
     async def on_command_error(self, event, *args, **kwargs):
         logger.error('Connected!')
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
-        await channel.send("{}".format(event))
+        await channel.send("Command error: {}".format(event))
 
     async def on_error(self, event, *args, **kwargs):
         logger.error('Connected!')
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
-        await channel.send("{}".format(event))
+        await channel.send("Error: {}".format(event))
 
 
 bot = SirCharles(load_config()['cmd_prefix'])

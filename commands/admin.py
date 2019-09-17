@@ -81,3 +81,8 @@ class Admin(commands.Cog):
                 await ctx.message.edit(content='Could not kick user. Not enough permissions.')
         else:
             return await ctx.message.edit(content='Could not find user.')
+
+    @commands.command(pass_context=True, aliases=['talk'])
+    @commands.has_role("Vanir")
+    async def say(self, ctx, *message):
+        await ctx.send(' '.join(message))
