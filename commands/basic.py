@@ -1,13 +1,17 @@
 import discord
 import asyncio
 import random
+import aiohttp
 from discord.ext import commands
 from config.secrets import *
 from utils.checks import embed_perms, cmd_prefix_len
 
+
 class Basic(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.session = aiohttp.ClientSession(loop=self.bot.loop, headers={"User-Agent": "AppuSelfBot"})
+
 
     def coinflip(self):
         return random.randint(0, 1)
@@ -147,10 +151,11 @@ class Basic(commands.Cog):
         await killmsg.delete()
         
 
-    @commands.command(pass_context=True, aliases=['yt', 'vid', 'video'])
-    async def youtube(self, ctx, *, msg):
+    @commands.command(aliases=['yt', 'vid', 'video'])
+    async def youtube(self, ctx, *msg):
         """Search for videos on YouTube."""
-        search = parse.quote(msg)
+        print(msg)
+        search = parse.quote(' '.join(msg))
         youtube_regex = re.compile('\/watch\?v=[\d\w\-]*')
         async with self.session.get("https://www.youtube.com/results", params={"search_query": search}) as resp:
             response = await resp.text()
