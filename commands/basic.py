@@ -147,7 +147,7 @@ class Basic(commands.Cog):
         await killmsg.delete()
         
 
-# @bot.command()
-# async def add(ctx, left: int, right: int):
-#     """Adds two numbers together."""
-#     await ctx.send(left + right)
+@commands.command()
+async def hello(ctx):
+    """Adds two numbers together."""
+    await ctx.send("Hello!")
