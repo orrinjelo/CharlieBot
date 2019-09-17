@@ -36,7 +36,7 @@ class SirCharles(Bot):
             await guild.system_channel.send(to_send)
 
     async def on_message(self, message):
-        if message.author == 482326700475285505:
+        if message.author.id == 482326700475285505:
             return
         logger.debug("{}".format(message))
         await message.add_reaction("🐈")
