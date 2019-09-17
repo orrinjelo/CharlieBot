@@ -147,6 +147,17 @@ class Basic(commands.Cog):
         await killmsg.delete()
         
 
+    @commands.command(pass_context=True, aliases=['yt', 'vid', 'video'])
+    async def youtube(self, ctx, *, msg):
+        """Search for videos on YouTube."""
+        search = parse.quote(msg)
+        youtube_regex = re.compile('\/watch\?v=[\d\w\-]*')
+        async with self.session.get("https://www.youtube.com/results", params={"search_query": search}) as resp:
+            response = await resp.text()
+        await ctx.message.delete()
+        url = youtube_regex.findall(response)[0]
+        await ctx.send("https://www.youtube.com{}".format(url))        
+
 @commands.command()
 async def hello(ctx):
     """Adds two numbers together."""
