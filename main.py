@@ -13,12 +13,28 @@ logger = logging.getLogger('discord')
 # instantiate the JournaldLogHandler to hook into systemd
 journald_handler = JournaldLogHandler()
 
-# set a formatter to include the level name
-journald_handler.setFormatter(logging.Formatter(
-    '[%(levelname)s] %(message)s'
-))
+logging.addLevelName(
+    logging.DEBUG,
+    spiff(logging.getLevelName(logging.DEBUG), 'yellow'))
+logging.addLevelName(
+    logging.INFO,
+    spiff(logging.getLevelName(logging.INFO), 'cyan'))
+logging.addLevelName(
+    logging.WARNING,
+    spiff(logging.getLevelName(logging.WARNING), 'yellow', 'b'))
+logging.addLevelName(
+    logging.ERROR,
+    spiff(logging.getLevelName(logging.ERROR), 'red'))
+logging.addLevelName(
+    logging.CRITICAL,
+    spiff(logging.getLevelName(logging.CRITICAL), 'red', 'b'))
 
-# add the journald handler to the current logger
+logging_format = '[%(asctime)s] %(process)d-%(levelname)s '
+logging_format += '%(module)s::%(funcName)s():%(lineno)d: '
+logging_format += '%(message)s'
+color_formatter = logging.Formatter(logging_format)
+
+journald_handler.setFormatter(color_formatter)
 logger.addHandler(journald_handler)
 logger.setLevel(logging.DEBUG)
 
@@ -58,7 +74,6 @@ class SirCharles(Bot):
         await channel.send(fmt.format(before, after))
 
     async def on_command_error(self, ctx, event):
-        logger.error('Connected!')
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
         log.error('{}'.format(ctx))
         log.error('{}'.format(event))
