@@ -6,6 +6,7 @@ from commands.basic import *
 from commands.admin import *
 from utils.checks import load_config
 from systemd.journal import JournaldLogHandler
+from utils.spiffyText import spiff
 import logging
 
 logger = logging.getLogger('discord')
