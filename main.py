@@ -30,8 +30,7 @@ logging.addLevelName(
     logging.CRITICAL,
     spiff(logging.getLevelName(logging.CRITICAL), 'red', 'b'))
 
-logging_format = '[%(asctime)s] %(process)d-%(levelname)s '
-logging_format += '%(module)s::%(funcName)s():%(lineno)d: '
+logging_format = '%(levelname)s %(module)s::%(funcName)s():%(lineno)d: '
 logging_format += '%(message)s'
 color_formatter = logging.Formatter(logging_format)
 
