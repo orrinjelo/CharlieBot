@@ -35,15 +35,22 @@ class SirCharles(Bot):
             to_send = 'Welcome {0.mention} to {1.name}!'.format(member, guild)
             await guild.system_channel.send(to_send)
 
-    # async def on_message(self, message):
-    #     ret = super(Bot, self).on_message(message)
-    #     if message.author.id == CHARLIE_ID: # Charlie
-    #         return ret
-    #     # logger.debug("{}".format(message))
-    #     if message.channel.id == BOT_LOBBY_CHANNEL: # bot-lobby
-    #         if 'cat' in message.content.lower() or 'kitty' in message.content.lower():
-    #             await message.add_reaction("🐈")
-    #     return ret
+    async def on_message(self, message):
+        ret = super(Bot, self).on_message(message)
+        if message.author.id == CHARLIE_ID: # Charlie
+            return ret
+
+        # if message.channel.id == BOT_LOBBY_CHANNEL: # bot-lobby
+        #     if 'cat' in message.content.lower() or 'kitty' in message.content.lower():
+        #         await message.add_reaction("🐈")
+
+        if 'cat' in message.content.lower() or 'kitty' in message.content.lower():
+            await message.add_reaction("🐈")
+
+        if message.channel.id == SELMA_TEST_CHANNEL:
+            pass
+
+        await self.process_commands(message)                
 
     async def on_message_edit(self, before, after):
         fmt = '**{0.author}** edited their message:\n{0.content} -> {1.content}'
@@ -53,7 +60,24 @@ class SirCharles(Bot):
     async def on_command_error(self, event, *args, **kwargs):
         logger.error('Connected!')
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
-        await channel.send("Command error: {}".format(event))
+        await channel.send(
+            """Command error:\n
+            Message: {0}\n
+            Command: {3}\n
+            Args: {1}\n
+            Kwargs: {2}\n
+            Channel: {4}\n
+            Invoker: {5}\n
+            """.format((
+                event.message,
+                event.args, 
+                event.kwargs,
+                event.command,
+                event.channel,
+                event.author
+                )
+        ))
+            
 
     async def on_error(self, event, *args, **kwargs):
         logger.error('Connected!')
