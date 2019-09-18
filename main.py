@@ -57,9 +57,11 @@ class SirCharles(Bot):
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
         await channel.send(fmt.format(before, after))
 
-    async def on_command_error(self, event, *args, **kwargs):
+    async def on_command_error(self, ctx, event):
         logger.error('Connected!')
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
+        log.error('{}'.format(ctx))
+        log.error('{}'.format(event))
         try:
             await channel.send("Message: {}".format(event.message))
         except:
@@ -87,7 +89,7 @@ class SirCharles(Bot):
            
 
     async def on_error(self, event, *args, **kwargs):
-        logger.error('Connected!')
+        logger.error('{}'.format(event))
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
         await channel.send("Error: {}".format(event))
 
