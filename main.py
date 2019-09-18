@@ -60,24 +60,31 @@ class SirCharles(Bot):
     async def on_command_error(self, event, *args, **kwargs):
         logger.error('Connected!')
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
-        await channel.send(
-            """Command error:\n
-            Message: {0}\n
-            Command: {3}\n
-            Args: {1}\n
-            Kwargs: {2}\n
-            Channel: {4}\n
-            Invoker: {5}\n
-            """.format((
-                event.message,
-                event.args, 
-                event.kwargs,
-                event.command,
-                event.channel,
-                event.author
-                )
-        ))
-            
+        try:
+            await channel.send("Message: {}".format(event.message))
+        except:
+            logger.error("Failed with event.message")
+        try:
+            await channel.send("Command: {}".format(event.args))
+        except:
+            logger.error("Failed with event.args")
+        try:
+            await channel.send("Args: {}".format(event.kwargs))
+        except:
+            logger.error("Failed with event.kwargs")
+        try:
+            await channel.send("Kwargs: {}".format(event.command))
+        except:
+            logger.error("Failed with event.command")
+        try:
+            await channel.send("Channel: {}".format(event.channel))
+        except:
+            logger.error("Failed with event.channel")
+        try:
+            await channel.send("Invoker: {}".format(event.author))
+        except:
+            logger.error("Failed with event.author")
+           
 
     async def on_error(self, event, *args, **kwargs):
         logger.error('Connected!')
