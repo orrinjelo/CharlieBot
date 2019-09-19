@@ -1,9 +1,11 @@
+import sys
 import discord
 from discord.ext.commands.bot import Bot
 import asyncio
 from config.secrets import *
 from commands.basic import *
 from commands.admin import *
+from selma.selma_client import Client as SelmaClient
 from utils.checks import load_config
 from systemd.journal import JournaldLogHandler
 from utils.spiffyText import spiff
@@ -43,7 +45,10 @@ class SirCharles(Bot):
         logger.info('Connected!')
         logger.info('Username: {0.name}\nID: {0.id}'.format(self.user))
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
-        await channel.send("I'm alive!")        
+        await channel.send("I'm alive!")
+        self.selma = SelmaClient('wizard')
+        selma_channel = self.get_channel(SELMA_TEST_CHANNEL)
+        self.selma.connect(channel.send)
 
     async def on_member_join(self, member):
         guild = member.guild
@@ -56,15 +61,11 @@ class SirCharles(Bot):
         if message.author.id == CHARLIE_ID: # Charlie
             return ret
 
-        # if message.channel.id == BOT_LOBBY_CHANNEL: # bot-lobby
-        #     if 'cat' in message.content.lower() or 'kitty' in message.content.lower():
-        #         await message.add_reaction("🐈")
-
         if 'cat' in message.content.lower() or 'kitty' in message.content.lower():
             await message.add_reaction("🐈")
 
         if message.channel.id == SELMA_TEST_CHANNEL:
-            pass
+            self.selma.request(message)
 
         await self.process_commands(message)                
 
@@ -73,40 +74,42 @@ class SirCharles(Bot):
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
         await channel.send(fmt.format(before, after))
 
-    async def on_command_error(self, ctx, event):
+    async def on_command_error(self, ctx, ext):
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
-        log.error('{}'.format(ctx))
-        log.error('{}'.format(event))
+        await channel.send('Error: {}'.format(ext))
+
         try:
-            await channel.send("Message: {}".format(event.message))
+            await channel.send("Message: {}".format(ctx.message))
         except:
-            logger.error("Failed with event.message")
+            logger.error("Failed with ctx.message")
         try:
-            await channel.send("Command: {}".format(event.args))
+            await channel.send("Command: {}".format(ctx.args))
         except:
-            logger.error("Failed with event.args")
+            logger.error("Failed with ctx.args")
         try:
-            await channel.send("Args: {}".format(event.kwargs))
+            await channel.send("Args: {}".format(ctx.kwargs))
         except:
-            logger.error("Failed with event.kwargs")
+            logger.error("Failed with ctx.kwargs")
         try:
-            await channel.send("Kwargs: {}".format(event.command))
+            await channel.send("Kwargs: {}".format(ctx.command))
         except:
-            logger.error("Failed with event.command")
+            logger.error("Failed with ctx.command")
         try:
-            await channel.send("Channel: {}".format(event.channel))
+            await channel.send("Channel: {}".format(ctx.channel))
         except:
-            logger.error("Failed with event.channel")
+            logger.error("Failed with ctx.channel")
         try:
-            await channel.send("Invoker: {}".format(event.author))
+            await channel.send("Invoker: {}".format(ctx.author))
         except:
-            logger.error("Failed with event.author")
+            logger.error("Failed with ctx.author")
            
 
     async def on_error(self, event, *args, **kwargs):
         logger.error('{}'.format(event))
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
+        tb = sys.exc_info()[2]
         await channel.send("Error: {}".format(event))
+        await channel.send("Traceback: {}".format(tb))
 
 
 bot = SirCharles(load_config()['cmd_prefix'])
