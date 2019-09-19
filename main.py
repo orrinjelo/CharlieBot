@@ -69,7 +69,7 @@ class SirCharles(Bot):
 
         if message.channel.id == SELMA_TEST_CHANNEL:
             logger.debug('Selma: {}'.format(message.content))
-            self.selma.request(message.content)
+            await self.selma.request(message.content)
 
         await self.process_commands(message)    
 

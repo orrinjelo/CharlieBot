@@ -15,9 +15,9 @@ class Client(object):
         self.cb = handler_cb
 
         if self.p:
-            self.request('connect {} {}'.format(self.u, self.p))
+            await self.request('connect {} {}'.format(self.u, self.p))
         else:
-            self.request('connect {}'.format(self.u))
+            await self.request('connect {}'.format(self.u))
 
         while True:
             msg = await self.r.readline()
@@ -27,7 +27,7 @@ class Client(object):
             await self.handle_msg(msg)
 
     async def request(self, msg):
-        self.writer.write(bytes(msg + '\n'))
+        await self.writer.write(bytes(msg + '\n'))
         logger.debug('Writing: {}'.format(msg))
 
     async def handle_msg(self, msg):
