@@ -18,7 +18,7 @@ class Client(object):
     async def connect(self, handler_cb):
         if self.r is None or self.w is None:
             await self.open_connection()
-            
+
         self.cb = handler_cb
 
         if self.p:
@@ -37,7 +37,7 @@ class Client(object):
         if self.r is None or self.w is None:
             await self.open_connection()
             
-        await self.w.write(bytes(msg + '\n'))
+        await self.w.write(bytes(msg + '\n', 'utf-8'))
         logger.debug('Writing: {}'.format(msg))
 
     async def handle_msg(self, msg):
