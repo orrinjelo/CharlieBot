@@ -9,9 +9,16 @@ class Client(object):
         self.p = password
         self.addr = addr
         self.port = port
+        self.r = None
+        self.w = None
+
+    async def open_connection(self):
+        self.r, self.w = await asyncio.open_connection(self.addr, self.port)
 
     async def connect(self, handler_cb):
-        self.r, self.w = await asyncio.open_connection(self.addr, self.port)
+        if self.r is None or self.w is None:
+            await self.open_connection()
+            
         self.cb = handler_cb
 
         if self.p:
@@ -27,6 +34,9 @@ class Client(object):
             await self.handle_msg(msg)
 
     async def request(self, msg):
+        if self.r is None or self.w is None:
+            await self.open_connection()
+            
         await self.w.write(bytes(msg + '\n'))
         logger.debug('Writing: {}'.format(msg))
 
