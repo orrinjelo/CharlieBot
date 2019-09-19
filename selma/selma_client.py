@@ -22,11 +22,15 @@ class Client(object):
         self.cb = handler_cb
 
         if self.p:
+            logger.debug('Selma: logging in with password...')
             await self.request('connect {} {}'.format(self.u, self.p))
         else:
+            logger.debug('Selma: logging in...')
             await self.request('connect {}'.format(self.u))
+        logger.debug('Selma: logged in!')
 
         while True:
+            logger.debug('Selma: waiting for a message...')
             msg = await self.r.readline()
             if msg.strip() is None:
                 await asyncio.sleep(1)
@@ -37,8 +41,9 @@ class Client(object):
         if self.r is None or self.w is None:
             await self.open_connection()
             
+        logger.debug('Selma: writing message: {}'.format(msg))
         self.w.write(bytes(msg + '\n', 'utf-8'))
-        logger.debug('Writing: {}'.format(msg))
+        logger.debug('Selma: writing done.')
 
     async def handle_msg(self, msg):
         '''Eventually add handling of images, links, custom formatting, etc.
