@@ -50,7 +50,7 @@ class SirCharles(Bot):
         self.selma = SelmaClient('wizard')
         logger.info('Connecting to Selma...')
         selma_channel = self.get_channel(SELMA_TEST_CHANNEL)
-        self.selma.connect(channel.send)
+        self.selma.connect(selma_channel.send)
         logger.info('Connected to Selma!')
 
     async def on_member_join(self, member):
