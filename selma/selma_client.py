@@ -27,7 +27,7 @@ class Client(object):
             await self.handle_msg(msg)
 
     async def request(self, msg):
-        await self.writer.write(bytes(msg + '\n'))
+        await self.w.write(bytes(msg + '\n'))
         logger.debug('Writing: {}'.format(msg))
 
     async def handle_msg(self, msg):
