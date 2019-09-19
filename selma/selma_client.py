@@ -47,7 +47,11 @@ class Client(object):
         logger.debug('{}'.format(msg.strip().decode('utf-8')))
 
 if __name__ == '__main__':
-    h = Client('wizard', lambda x: print(x))
+
+    async def cb(msg):
+        print(msg)
+
+    h = Client('wizard')
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(h.connect())
+    loop.run_until_complete(h.connect(cb))
     loop.close()
