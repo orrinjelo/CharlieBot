@@ -16,10 +16,15 @@ class Client(object):
         self.r, self.w = await asyncio.open_connection(self.addr, self.port)
 
     async def connect(self, handler_cb):
+        logger.debug('Selma: connect()')
         if self.r is None or self.w is None:
             await self.open_connection()
 
+        logger.debug('Selma: handler_cb')
+
         self.cb = handler_cb
+
+        logger.debug('Selma: login')
 
         if self.p:
             logger.debug('Selma: logging in with password...')
