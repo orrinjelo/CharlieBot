@@ -13,6 +13,7 @@ class Client(object):
         self.w = None
 
     async def open_connection(self):
+        logger.debug('Selma: opening connection')
         self.r, self.w = await asyncio.open_connection(self.addr, self.port)
 
     async def connect(self, handler_cb):

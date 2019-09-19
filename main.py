@@ -47,11 +47,6 @@ class SirCharles(Bot):
         logger.info('Username: {0.name}\nID: {0.id}'.format(self.user))
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
         await channel.send("I'm alive!")
-        self.selma = SelmaClient('wizard')
-        logger.info('Connecting to Selma...')
-        selma_channel = self.get_channel(SELMA_TEST_CHANNEL)
-        self.selma.connect(selma_channel.send)
-        logger.info('Connected to Selma!')
 
     async def on_member_join(self, member):
         guild = member.guild
@@ -68,8 +63,17 @@ class SirCharles(Bot):
             await message.add_reaction("🐈")
 
         if message.channel.id == SELMA_TEST_CHANNEL:
-            logger.debug('Selma: {}'.format(message.content))
-            await self.selma.request(message.content)
+            try:
+                await self.selma.request(message.content)
+            except:
+                self.selma = SelmaClient('wizard')
+                logger.info('Connecting to Selma...')
+                selma_channel = self.get_channel(SELMA_TEST_CHANNEL)
+                self.selma.connect(selma_channel.send)
+                logger.info('Connected to Selma!')
+
+                await self.selma.request(message.content)
+
 
         await self.process_commands(message)    
 
