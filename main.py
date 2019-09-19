@@ -47,8 +47,10 @@ class SirCharles(Bot):
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
         await channel.send("I'm alive!")
         self.selma = SelmaClient('wizard')
+        logger.info('Connecting to Selma...')
         selma_channel = self.get_channel(SELMA_TEST_CHANNEL)
         self.selma.connect(channel.send)
+        logger.info('Connected to Selma!')
 
     async def on_member_join(self, member):
         guild = member.guild
