@@ -10,6 +10,7 @@ from utils.checks import load_config
 from systemd.journal import JournaldLogHandler
 from utils.spiffyText import spiff
 import logging
+import traceback
 
 logger = logging.getLogger('discord')
 
@@ -110,9 +111,8 @@ class SirCharles(Bot):
     async def on_error(self, event, *args, **kwargs):
         logger.error('{}'.format(event))
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
-        tb = sys.exc_info()[2]
         await channel.send("Error: {}".format(event))
-        await channel.send("Traceback: {}".format(tb))
+        await channel.send("Traceback: {}".format(traceback.format_exc()))
 
 
 bot = SirCharles(load_config()['cmd_prefix'])
