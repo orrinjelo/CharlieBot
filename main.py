@@ -86,30 +86,16 @@ class SirCharles(Bot):
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
         await channel.send('Error: {}'.format(ext))
 
-        try:
-            await channel.send("Message: {}".format(ctx.message))
-        except:
-            logger.error("Failed with ctx.message")
-        try:
-            await channel.send("Command: {}".format(ctx.command))
-        except:
-            logger.error("Failed with ctx.args")
-        try:
-            await channel.send("Args: {}".format(ctx.args))
-        except:
-            logger.error("Failed with ctx.kwargs")
-        try:
-            await channel.send("Kwargs: {}".format(ctx.kwargs))
-        except:
-            logger.error("Failed with ctx.command")
-        try:
-            await channel.send("Channel: {}".format(ctx.channel))
-        except:
-            logger.error("Failed with ctx.channel")
-        try:
-            await channel.send("Invoker: {}".format(ctx.author))
-        except:
-            logger.error("Failed with ctx.author")
+        em = discord.Embed(timestamp=ctx.message.created_at, colour=0x708DD0)
+
+        em.add_field(name="Message", value="{}".format(ctx.message))
+        em.add_field(name="Command", value="{}".format(ctx.command))
+        em.add_field(name="Args", value="{}".format(ctx.args))
+        em.add_field(name="Kwargs", value="{}".format(ctx.kwargs))
+        em.add_field(name="Channel", value="{}".format(ctx.channel))
+        em.add_field(name="Invoker", value="{}".format(ctx.author))
+
+        await ctx.send(embed=em)
            
 
     async def on_error(self, event, *args, **kwargs):
@@ -119,8 +105,6 @@ class SirCharles(Bot):
         em.add_field(name='Error', value="Error: {}".format(event), inline=True)
         em.add_field(name='Traceback', value="{}".format(traceback.format_exc()))
         await ctx.send(embed=em)
-        # await channel.send("Error: {}".format(event))
-        # await channel.send("Traceback: {}".format(traceback.format_exc()))
 
 
 bot = SirCharles(load_config()['cmd_prefix'])
