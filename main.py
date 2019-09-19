@@ -67,9 +67,10 @@ class SirCharles(Bot):
             await message.add_reaction("🐈")
 
         if message.channel.id == SELMA_TEST_CHANNEL:
-            self.selma.request(message)
+            log.debug('Selma: {}'.format(message.content))
+            self.selma.request(message.content)
 
-        await self.process_commands(message)                
+        await self.process_commands(message)    
 
     async def on_message_edit(self, before, after):
         fmt = '**{0.author}** edited their message:\n{0.content} -> {1.content}'
