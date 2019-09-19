@@ -68,7 +68,7 @@ class SirCharles(Bot):
             await message.add_reaction("🐈")
 
         if message.channel.id == SELMA_TEST_CHANNEL:
-            log.debug('Selma: {}'.format(message.content))
+            logger.debug('Selma: {}'.format(message.content))
             self.selma.request(message.content)
 
         await self.process_commands(message)    
