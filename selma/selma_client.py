@@ -1,4 +1,7 @@
 import asyncio
+import logging
+
+logger = logging.getLogger('discord')
 
 class Client(object):
     def __init__(self, username, password=None, addr='localhost', port=7777):
@@ -25,11 +28,13 @@ class Client(object):
 
     async def request(self, msg):
         self.writer.write(bytes(msg + '\n'))
+        logger.debug('Writing: {}'.format(msg))
 
     async def handle_msg(self, msg):
         '''Eventually add handling of images, links, custom formatting, etc.
         For now, just return the message.'''
         await self.cb(msg.strip().decode('utf-8'))
+        logger.debug('{}'.format(msg.strip().decode('utf-8')))
 
 if __name__ == '__main__':
     h = Client('wizard', lambda x: print(x))
