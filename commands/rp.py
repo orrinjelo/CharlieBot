@@ -64,7 +64,18 @@ class Roleplay(commands.Cog):
         self.xp.insert_one(ret)
         return ret
 
-    async def get_player(self, ctx):
+    async def get_player_by_ctx(self, ctx):
+        player_id = hash(ctx.message.author)
+        res = self.xp.find_one(
+            {
+                'id': player_id
+            }
+        )
+        if not res:
+            res = await self.create_xp(ctx=ctx)
+        return res
+
+    async def get_player_by_id(self, ctx):
         player_id = hash(ctx.message.author)
         res = self.xp.find_one(
             {
@@ -77,8 +88,20 @@ class Roleplay(commands.Cog):
 
     @commands.has_role("GameMaster")
     @commands.command(pass_context=True)
-    async def givexp(self, ctx, points: int):
-        res = await self.get_player(ctx)
+    async def givexp(self, ctx, *, name="", points: int = 0):
+        if name:
+            try:
+                user = ctx.message.mentions[0]
+            except:
+                user = ctx.guild.get_member_named(name)
+            if not user:
+                user = ctx.guild.get_member(int(name))
+            if not user:
+                await ctx.send('Could not find user.')
+                return
+        else:
+            user = ctx.message.author
+        res = await self.get_player_by_id(user)
         self.xp.update_one(
             {
                 'id': res['id']
@@ -87,12 +110,24 @@ class Roleplay(commands.Cog):
                 'xp': res['xp'] + points
             }}
         )
-        await ctx.send("{0}'s XP is set to {1}.".format(res['name'], points))
+        await ctx.send("{0}'s XP is increased by {1}.".format(res['name'], points))
 
     @commands.has_role("GameMaster")
     @commands.command(aliases=['set_xp'],pass_context=True)
-    async def setxp(self, ctx, points: int):
-        res = await self.get_player(ctx)
+    async def setxp(self, ctx, *, name="", points: int = 0):
+        if name:
+            try:
+                user = ctx.message.mentions[0]
+            except:
+                user = ctx.guild.get_member_named(name)
+            if not user:
+                user = ctx.guild.get_member(int(name))
+            if not user:
+                await ctx.send('Could not find user.')
+                return
+        else:
+            user = ctx.message.author
+        res = await self.get_player_by_id(user)
         self.xp.update_one(
             {
                 'id': res['id']
@@ -105,8 +140,20 @@ class Roleplay(commands.Cog):
 
     @commands.command(aliases=['experience'],pass_context=True)
     async def xp(self, ctx):
+        if name:
+            try:
+                user = ctx.message.mentions[0]
+            except:
+                user = ctx.guild.get_member_named(name)
+            if not user:
+                user = ctx.guild.get_member(int(name))
+            if not user:
+                await ctx.send('Could not find user.')
+                return
+        else:
+            user = ctx.message.author        
         logger.debug('Calling XP')
-        res = await self.get_player(ctx)
+        res = await self.get_player_by_idx(user)
         msg = await ctx.send('You have {} xp.'.format(res['xp']))  
 
     @commands.command(aliases=['test'],pass_context=True)
