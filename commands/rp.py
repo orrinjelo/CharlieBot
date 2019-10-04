@@ -83,7 +83,7 @@ class Roleplay(commands.Cog):
             {
                 'id': res['id']
             },
-            {
+            '$set': {
                 'xp': res['xp'] + points
             }
         )
@@ -97,7 +97,7 @@ class Roleplay(commands.Cog):
             {
                 'id': res['id']
             },
-            {
+            '$set': {
                 'xp': points
             }
         )
