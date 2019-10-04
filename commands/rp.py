@@ -75,8 +75,7 @@ class Roleplay(commands.Cog):
             res = await self.create_xp(ctx=ctx)
         return res
 
-    async def get_player_by_id(self, ctx):
-        player_id = hash(ctx.message.author)
+    async def get_player_by_id(self, player_id):
         res = self.xp.find_one(
             {
                 'id': player_id
