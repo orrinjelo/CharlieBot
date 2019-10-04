@@ -77,7 +77,7 @@ class Roleplay(commands.Cog):
 
     @commands.has_role("GameMaster")
     @commands.command(pass_context=True)
-    async def givexp(self, ctx, points):
+    async def givexp(self, ctx, points: int):
         res = await self.get_player(ctx)
         self.xp.update_one(
             {
@@ -91,7 +91,7 @@ class Roleplay(commands.Cog):
 
     @commands.has_role("GameMaster")
     @commands.command(aliases=['set_xp'],pass_context=True)
-    async def setxp(self, ctx, points):
+    async def setxp(self, ctx, points: int):
         res = await self.get_player(ctx)
         self.xp.update_one(
             {
