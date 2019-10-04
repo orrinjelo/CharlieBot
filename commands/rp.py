@@ -83,9 +83,9 @@ class Roleplay(commands.Cog):
             {
                 'id': res['id']
             },
-            '$set': {
+            {'$set': {
                 'xp': res['xp'] + points
-            }
+            }}
         )
         await ctx.send("{0}'s XP is set to {1}.".format(res['name'], points))
 
@@ -97,9 +97,9 @@ class Roleplay(commands.Cog):
             {
                 'id': res['id']
             },
-            '$set': {
+            {'$set': {
                 'xp': points
-            }
+            }}
         )
         await ctx.send("{0}'s XP is set to {1}.".format(res['name'], points))
 
