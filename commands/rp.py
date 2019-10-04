@@ -18,6 +18,7 @@ class Roleplay(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.session = aiohttp.ClientSession(loop=self.bot.loop, headers={"User-Agent": "AppuSelfBot"})
+        logger.debug('Connecting to Mongo...')
         self.mongo_client = MongoClient()
         self.xp_db = self.mongo_client['xp']
         self.xp = self.xp_db.xp
@@ -30,13 +31,13 @@ class Roleplay(commands.Cog):
             }
         )
         if not res:
-            res = await self.create_xp(ctx)
+            res = await self.create_xp(message=message)
         
         player_hist = res['history']
         player_hist.append(
             {
                 'date': dt.now(),
-                'message': message
+                'message': message.content
             }
         )
 
@@ -45,18 +46,20 @@ class Roleplay(commands.Cog):
                 'id': player_id
             },
             {
-                'history': player_hist
+                '$set': {'history': player_hist}
             }
         )
 
-    async def create_xp(self, ctx):
-        player_id = hash(ctx.message.author)
-        player_name = str(ctx.message.author)
+    async def create_xp(self, ctx=None, message=None):
+        if not message:
+            message = ctx.message
+        player_id = hash(message.author)
+        player_name = str(message.author)
         ret = {
             'id': player_id,
             'name': player_name,
             'xp': 0,
-            'history' = []
+            'history': []
         }
         self.xp.insert_one(ret)
         return ret
@@ -69,11 +72,11 @@ class Roleplay(commands.Cog):
             }
         )
         if not res:
-            res = await self.create_xp(ctx)
+            res = await self.create_xp(ctx=ctx)
         return res
 
     @commands.has_role("GameMaster")
-    @commands.command()
+    @commands.command(pass_context=True)
     async def givexp(self, ctx, points):
         res = await self.get_player(ctx)
         self.xp.update_one(
@@ -87,7 +90,7 @@ class Roleplay(commands.Cog):
         await ctx.send("{0}'s XP is set to {1}.".format(res['name'], points))
 
     @commands.has_role("GameMaster")
-    @commands.command()
+    @commands.command(aliases=['set_xp'],pass_context=True)
     async def setxp(self, ctx, points):
         res = await self.get_player(ctx)
         self.xp.update_one(
@@ -100,11 +103,8 @@ class Roleplay(commands.Cog):
         )
         await ctx.send("{0}'s XP is set to {1}.".format(res['name'], points))
 
-    @commands.command()
+    @commands.command(aliases=['experience'],pass_context=True)
     async def xp(self, ctx):
+        logger.debug('Calling XP')
         res = await self.get_player(ctx)
-        try:
-            msg = await ctx.send('You have {} xp.'.format(res['xp']))  
-        except Exception as e:
-            await ctx.send("I has the xp dumbz. :P")
-            raise e
+        msg = await ctx.send('You have {} xp.'.format(res['xp']))  

@@ -104,10 +104,12 @@ class SirCharles(Bot):
     async def on_error(self, event, *args, **kwargs):
         logger.error('{}'.format(event))
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
-        em = discord.Embed(timestamp=ctx.message.created_at, colour=0x708DD0)
+        em = discord.Embed(timestamp=dt.now(), colour=0x708DD0)
         em.add_field(name='Error', value="Error: {}".format(event), inline=True)
-        em.add_field(name='Traceback', value="{}".format(traceback.format_exc()))
-        await ctx.send(embed=em)
+        em.add_field(name='Traceback', value="{}".format(str(traceback.format_exc())[:1024]))
+        channel = self.get_channel(BOT_DEBUG_CHANNEL)
+        await channel.send(embed=em)
+        logging.error('Error: {}\nTraceback:{}'.format(event, traceback.format_exc()))
 
 
 bot = SirCharles(load_config()['cmd_prefix'])
