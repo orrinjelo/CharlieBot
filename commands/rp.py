@@ -108,3 +108,8 @@ class Roleplay(commands.Cog):
         logger.debug('Calling XP')
         res = await self.get_player(ctx)
         msg = await ctx.send('You have {} xp.'.format(res['xp']))  
+
+    @commands.command(aliases=['test'],pass_context=True)
+    async def xptest(self, ctx):
+        logger.debug('Calling XPtest')
+        msg = await ctx.send('You have 10000000 xp.')  
