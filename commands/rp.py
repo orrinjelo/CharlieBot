@@ -78,7 +78,7 @@ class Roleplay(commands.Cog):
     async def get_player_by_id(self, player_id):
         res = self.xp.find_one(
             {
-                'id': player_id
+                'id': hash(player_id)
             }
         )
         if not res:
@@ -150,7 +150,7 @@ class Roleplay(commands.Cog):
                 await ctx.send('Could not find user.')
                 return
         else:
-            user = ctx.message.author        
+            user = ctx.message.author
         logger.debug('Calling XP')
         res = await self.get_player_by_id(user)
         msg = await ctx.send('You have {} xp.'.format(res['xp']))  
