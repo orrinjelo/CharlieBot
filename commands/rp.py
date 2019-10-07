@@ -152,7 +152,7 @@ class Roleplay(commands.Cog):
         else:
             user = ctx.message.author        
         logger.debug('Calling XP')
-        res = await self.get_player_by_idx(user)
+        res = await self.get_player_by_id(user)
         msg = await ctx.send('You have {} xp.'.format(res['xp']))  
 
     @commands.command(aliases=['test'],pass_context=True)
