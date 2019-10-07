@@ -75,7 +75,7 @@ class Roleplay(commands.Cog):
             res = await self.create_xp(ctx=ctx)
         return res
 
-    async def get_player_by_id(self, player_id):
+    async def get_player_by_id(self, ctx, player_id):
         res = self.xp.find_one(
             {
                 'id': hash(player_id)
@@ -100,7 +100,7 @@ class Roleplay(commands.Cog):
                 return
         else:
             user = ctx.message.author
-        res = await self.get_player_by_id(user)
+        res = await self.get_player_by_id(ctx,user)
         self.xp.update_one(
             {
                 'id': res['id']
@@ -126,7 +126,7 @@ class Roleplay(commands.Cog):
                 return
         else:
             user = ctx.message.author
-        res = await self.get_player_by_id(user)
+        res = await self.get_player_by_id(ctx,user)
         self.xp.update_one(
             {
                 'id': res['id']
@@ -152,7 +152,7 @@ class Roleplay(commands.Cog):
         else:
             user = ctx.message.author
         logger.debug('Calling XP')
-        res = await self.get_player_by_id(user)
+        res = await self.get_player_by_id(ctx,user)
         msg = await ctx.send('You have {} xp.'.format(res['xp']))  
 
     @commands.command(aliases=['test'],pass_context=True)
