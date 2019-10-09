@@ -66,7 +66,7 @@ class Admin(commands.Cog):
 
     @commands.command(pass_context=True)
     @commands.has_role("Aesir")
-    async def kick(self, ctx, user, *, reason=""):
+    async def kick(self, ctx, name: discord.Member, *, reason=""):
         """Kicks a user (if you have the permission)."""
         user = get_user(ctx.message, user)
         if user:
