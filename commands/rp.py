@@ -114,6 +114,7 @@ class Roleplay(commands.Cog):
     @commands.has_role("GameMaster")
     @commands.command(aliases=['set_xp'],pass_context=True)
     async def setxp(self, ctx, points: int, name: discord.Member):
+        await ctx.send("{},{}".format(points, name))
         if name:
             try:
                 user = ctx.message.mentions[0]
@@ -138,7 +139,7 @@ class Roleplay(commands.Cog):
         await ctx.send("{0}'s XP is set to {1}.".format(res['name'], points))
 
     @commands.command(aliases=['experience'],pass_context=True)
-    async def xp(self, ctx, name: discord.Member):
+    async def xp(self, ctx, name: discord.Member=None):
         if name:
             try:
                 user = ctx.message.mentions[0]
@@ -153,7 +154,7 @@ class Roleplay(commands.Cog):
             user = ctx.message.author
         logger.debug('Calling XP')
         res = await self.get_player_by_id(ctx,user)
-        msg = await ctx.send('You have {} xp.'.format(res['xp']))  
+        msg = await ctx.send('{} has {} xp.'.format(str(name), res['xp']))  
 
     @commands.command(aliases=['test'],pass_context=True)
     async def xptest(self, ctx):
