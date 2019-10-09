@@ -194,3 +194,10 @@ class Basic(commands.Cog):
         await ctx.send("A: {}".format(a))
         await ctx.send("B: {}".format(b))
 
+
+    @commands.command()
+    async def farboo(self, ctx, *, a: int=0, b: str ='y'):
+        """Adds two numbers together."""
+        await ctx.send("A: {}".format(a))
+        await ctx.send("B: {}".format(b))
+
