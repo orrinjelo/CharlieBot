@@ -168,29 +168,29 @@ class Basic(commands.Cog):
         url = youtube_regex.findall(response)[0]
         await ctx.send("https://www.youtube.com{}".format(url))        
 
-@commands.command()
-async def hello(ctx):
-    """Adds two numbers together."""
-    await ctx.send("Hello!")
+    @commands.command()
+    async def hello(self, ctx):
+        """Adds two numbers together."""
+        await ctx.send("Hello!")
 
 
-@commands.command()
-async def foobar(ctx, a, b):
-    """Adds two numbers together."""
-    await ctx.send("A: {}".format(a))
-    await ctx.send("B: {}".format(b))
+    @commands.command()
+    async def foobar(self, ctx, a, b):
+        """Adds two numbers together."""
+        await ctx.send("A: {}".format(a))
+        await ctx.send("B: {}".format(b))
 
 
-@commands.command()
-async def fooby(ctx, a, *, b='none'):
-    """Adds two numbers together."""
-    await ctx.send("A: {}".format(a))
-    await ctx.send("B: {}".format(b))
+    @commands.command()
+    async def fooby(self, ctx, a, *, b='none'):
+        """Adds two numbers together."""
+        await ctx.send("A: {}".format(a))
+        await ctx.send("B: {}".format(b))
 
 
-@commands.command()
-async def fooboo(ctx, *, a='x', b='y'):
-    """Adds two numbers together."""
-    await ctx.send("A: {}".format(a))
-    await ctx.send("B: {}".format(b))
+    @commands.command()
+    async def fooboo(self, ctx, *, a='x', b='y'):
+        """Adds two numbers together."""
+        await ctx.send("A: {}".format(a))
+        await ctx.send("B: {}".format(b))
 
