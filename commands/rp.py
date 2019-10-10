@@ -11,6 +11,7 @@ from urllib import parse
 from urllib.request import Request, urlopen
 from pymongo import MongoClient
 from datetime import datetime as dt
+from pprint import pformat
 
 logger = logging.getLogger('discord')
 
@@ -85,6 +86,22 @@ class Roleplay(commands.Cog):
             res = await self.create_xp(ctx=ctx)
         return res
 
+    @commands.command(pass_context=True)
+    @commands.has_role("Vanir")
+    async def find_one(self, ctx, query: str)
+        res = self.xp.find_one(
+            eval(query)
+        )
+        await ctx.send(pformat(res))
+
+    @commands.command(pass_context=True)
+    @commands.has_role("Vanir")
+    async def update_one(self, ctx, query: str)
+        res = self.xp.update_one(
+            eval(query)
+        )
+        await ctx.send(pformat(res))
+
     @commands.has_role("GameMaster")
     @commands.command(pass_context=True)
     async def givexp(self, ctx, points: int, *, name: discord.Member=None):
@@ -114,7 +131,7 @@ class Roleplay(commands.Cog):
     @commands.has_role("GameMaster")
     @commands.command(aliases=['set_xp'],pass_context=True)
     async def setxp(self, ctx, points: int, *, name: discord.Member=None):
-        await ctx.send("{},{}".format(points, name))
+        # await ctx.send("{},{}".format(points, name))
         if name:
             try:
                 user = ctx.message.mentions[0]
@@ -128,7 +145,7 @@ class Roleplay(commands.Cog):
         else:
             user = ctx.message.author
         res = await self.get_player_by_id(ctx,user)
-        await ctx.send("{},{},{},{}".format(user,hash(user),res,hash(ctx.message.author)))
+        # await ctx.send("{},{},{},{}".format(user,hash(user),res,hash(ctx.message.author)))
         self.xp.update_one(
             {
                 'id': res['id']
