@@ -98,7 +98,7 @@ class SirCharles(Bot):
         em.add_field(name="Channel", value="{}".format(ctx.channel))
         em.add_field(name="Invoker", value="{}".format(ctx.author))
 
-        await ctx.send(embed=em)
+        await channel.send(embed=em)
            
 
     async def on_error(self, event, *args, **kwargs):
