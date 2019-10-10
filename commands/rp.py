@@ -48,8 +48,7 @@ class Roleplay(commands.Cog):
             },
             {
                 '$set': {
-                    'history': player_hist,
-                    'xp': res['xp'] + 1
+                    'history': player_hist
                 }
             }
         )
@@ -59,6 +58,15 @@ class Roleplay(commands.Cog):
             message = ctx.message
         player_id = hash(message.author)
         player_name = str(message.author)
+        res = self.xp.find_one(
+            {
+                'name': player_name
+            }
+        )
+        if res:
+            channel = self.get_channel(BOT_DEBUG_CHANNEL)
+            await channel.send('Error: {} already exists in database'.format(player_name))
+            return res
         ret = {
             'id': player_id,
             'name': player_name,
