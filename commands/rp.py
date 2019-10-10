@@ -88,7 +88,7 @@ class Roleplay(commands.Cog):
 
     @commands.command(pass_context=True)
     @commands.has_role("Vanir")
-    async def find_one(self, ctx, query: str)
+    async def find_one(self, ctx, query: str):
         res = self.xp.find_one(
             eval(query)
         )
@@ -96,7 +96,7 @@ class Roleplay(commands.Cog):
 
     @commands.command(pass_context=True)
     @commands.has_role("Vanir")
-    async def update_one(self, ctx, query: str)
+    async def update_one(self, ctx, query: str):
         res = self.xp.update_one(
             eval(query)
         )
