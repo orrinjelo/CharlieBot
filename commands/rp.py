@@ -96,9 +96,10 @@ class Roleplay(commands.Cog):
 
     @commands.command(pass_context=True)
     @commands.has_role("Vanir")
-    async def update_one(self, ctx, query: str):
+    async def update_one(self, ctx, query: str, request: str):
         res = self.xp.update_one(
-            eval(query)
+            eval(query),
+            eval(request)
         )
         await ctx.send(pformat(res))
 
