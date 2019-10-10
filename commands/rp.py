@@ -65,7 +65,7 @@ class Roleplay(commands.Cog):
         )
         if res:
             channel = self.bot.get_channel(BOT_DEBUG_CHANNEL)
-            await channel.send('Error: {} already exists in database'.format(player_name))
+            await channel.send('Error: {}({}) already exists in database'.format(player_name, player_id))
             return res
         ret = {
             'id': player_id,
@@ -105,6 +105,12 @@ class Roleplay(commands.Cog):
         except:
             res = eval(query)
         await ctx.send(pformat(res))
+
+    @commands.command(pass_context=True)
+    async def xplist(self, ctx, query: str):
+        res = self.xp.find()
+        for entry in res:
+            await ctx.send(pformat(entry))
 
     @commands.command(pass_context=True)
     @commands.has_role("Vanir")
