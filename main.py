@@ -63,17 +63,17 @@ class SirCharles(Bot):
         if 'cat' in message.content.lower() or 'kitty' in message.content.lower():
             await message.add_reaction("🐈")
 
-        if message.channel.id == SELMA_TEST_CHANNEL:
-            try:
-                await self.selma.request(message.content)
-            except:
-                self.selma = SelmaClient('wizard')
-                logger.info('Connecting to Selma...')
-                selma_channel = self.get_channel(SELMA_TEST_CHANNEL)
-                self.selma.connect(selma_channel.send)
-                logger.info('Connected to Selma!')
+        # if message.channel.id == SELMA_TEST_CHANNEL:
+        #     try:
+        #         await self.selma.request(message.content)
+        #     except:
+        #         self.selma = SelmaClient('wizard')
+        #         logger.info('Connecting to Selma...')
+        #         selma_channel = self.get_channel(SELMA_TEST_CHANNEL)
+        #         self.selma.connect(selma_channel.send)
+        #         logger.info('Connected to Selma!')
 
-                await self.selma.request(message.content)
+        #         await self.selma.request(message.content)
 
         if message.channel.id in TRACK_XP:
             await self.cogs['Roleplay'].log_post(message)
