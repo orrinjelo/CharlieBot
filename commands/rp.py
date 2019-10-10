@@ -64,7 +64,7 @@ class Roleplay(commands.Cog):
             }
         )
         if res:
-            channel = self.get_channel(BOT_DEBUG_CHANNEL)
+            channel = self.bot.get_channel(BOT_DEBUG_CHANNEL)
             await channel.send('Error: {} already exists in database'.format(player_name))
             return res
         ret = {
