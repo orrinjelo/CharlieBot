@@ -47,7 +47,10 @@ class Roleplay(commands.Cog):
                 'id': player_id
             },
             {
-                '$set': {'history': player_hist}
+                '$set': {
+                    'history': player_hist,
+                    'xp': res['xp'] + 1
+                }
             }
         )
 
