@@ -89,7 +89,10 @@ class Roleplay(commands.Cog):
     @commands.command(pass_context=True)
     @commands.has_role("Vanir")
     async def eval(self, ctx, query: str):
-        res = await eval(query)
+        try:
+            res = await eval(query)
+        except:
+            res = eval(query)
         await ctx.send(pformat(res))
 
     @commands.command(pass_context=True)
