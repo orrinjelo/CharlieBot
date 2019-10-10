@@ -106,8 +106,8 @@ class Roleplay(commands.Cog):
             res = eval(query)
         await ctx.send(pformat(res))
 
-    @commands.command(pass_context=True)
-    async def xplist(self, ctx, query: str):
+    @commands.command(pass_context=True, aliases=['listxp'])
+    async def xplist(self, ctx):
         res = self.xp.find()
         for entry in res:
             await ctx.send(pformat(entry))
