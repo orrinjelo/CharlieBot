@@ -53,11 +53,13 @@ class Roleplay(commands.Cog):
             }
         )
 
-    async def create_xp(self, ctx=None, message=None):
+    async def create_xp(self, ctx=None, message=None, member=None):
         if not message:
             message = ctx.message
-        player_id = hash(message.author)
-        player_name = str(message.author)
+        if not member:
+            member = message.author
+        player_id = hash(member)
+        player_name = str(member)
         res = self.xp.find_one(
             {
                 'name': player_name
@@ -95,6 +97,16 @@ class Roleplay(commands.Cog):
         )
         if not res:
             res = await self.create_xp(ctx=ctx)
+        return res
+
+    async def get_player_by_member(self, ctx, member):
+        res = self.xp.find_one(
+            {
+                'id': hash(member)
+            }
+        )
+        if not res:
+            res = await self.create_xp(ctx=ctx, member=member)
         return res
 
     @commands.command(pass_context=True)
@@ -144,7 +156,7 @@ class Roleplay(commands.Cog):
                 return
         else:
             user = ctx.message.author
-        res = await self.get_player_by_id(ctx,user)
+        res = await self.get_player_by_member(ctx, user)
         self.xp.update_one(
             {
                 'id': res['id']
@@ -171,7 +183,7 @@ class Roleplay(commands.Cog):
                 return
         else:
             user = ctx.message.author
-        res = await self.get_player_by_id(ctx,user)
+        res = await self.get_player_by_member(ctx, user)
         # await ctx.send("{},{},{},{}".format(user,hash(user),res,hash(ctx.message.author)))
         self.xp.update_one(
             {
@@ -197,8 +209,7 @@ class Roleplay(commands.Cog):
                 return
         else:
             user = ctx.message.author
-        logger.debug('Calling XP')
-        res = await self.get_player_by_id(ctx,user)
+        res = await self.get_player_by_member(ctx,user)
         msg = await ctx.send('{} has {} xp.'.format(str(user), res['xp']))  
 
     @commands.command(aliases=['test'],pass_context=True)
