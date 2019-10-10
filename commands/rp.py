@@ -128,7 +128,7 @@ class Roleplay(commands.Cog):
         else:
             user = ctx.message.author
         res = await self.get_player_by_id(ctx,user)
-        await ctx.send("{},{},{}".format(user,hash(user),res))
+        await ctx.send("{},{},{},{}".format(user,hash(user),res,hash(ctx.message.author)))
         self.xp.update_one(
             {
                 'id': res['id']
