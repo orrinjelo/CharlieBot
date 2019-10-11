@@ -121,7 +121,7 @@ class Roleplay(commands.Cog):
             res = eval(query)
         await ctx.send(pformat(res))
 
-    @commands.command(pass_context=True, aliases=['listxp'])
+    @commands.command(pass_context=True, aliases=['listxpraw'])
     async def xplistraw(self, ctx):
         res = self.xp.find()
         for entry in res:
