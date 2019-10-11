@@ -35,12 +35,14 @@ class Roleplay(commands.Cog):
             res = await self.create_xp(message=message)
         
         player_hist = res['history']
-        player_hist.append(
-            {
-                'date': dt.now(),
-                'message': message.content
-            }
-        )
+        player_xp = res['xp']
+        now = dt.now()
+        date = now.year*10000 + now.month*100 + now.day
+        if date in player_hist:
+            player_hist[date] += 1
+        else:
+            player_hist[date] = 1
+            player_xp += 1
 
         self.xp.update_one(
             {
@@ -48,7 +50,8 @@ class Roleplay(commands.Cog):
             },
             {
                 '$set': {
-                    'history': player_hist
+                    'history': player_hist,
+                    'xp': player_xp
                 }
             }
         )
@@ -73,7 +76,7 @@ class Roleplay(commands.Cog):
             'id': player_id,
             'name': player_name,
             'xp': 0,
-            'history': []
+            'history': {}
         }
         self.xp.insert_one(ret)
         return ret

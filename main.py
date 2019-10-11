@@ -80,10 +80,10 @@ class SirCharles(Bot):
 
         await self.process_commands(message)    
 
-    async def on_message_edit(self, before, after):
-        fmt = '**{0.author}** edited their message:\n{0.content} -> {1.content}'
-        channel = self.get_channel(BOT_DEBUG_CHANNEL)
-        await channel.send(fmt.format(before, after))
+    # async def on_message_edit(self, before, after):
+    #     fmt = '**{0.author}** edited their message:\n{0.content} -> {1.content}'
+    #     channel = self.get_channel(BOT_DEBUG_CHANNEL)
+    #     await channel.send(fmt.format(before, after))
 
     async def on_command_error(self, ctx, ext):
         channel = self.get_channel(BOT_DEBUG_CHANNEL)
