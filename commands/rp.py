@@ -37,7 +37,7 @@ class Roleplay(commands.Cog):
         player_hist = res['history']
         player_xp = res['xp']
         now = dt.now()
-        date = now.year*10000 + now.month*100 + now.day
+        date = str(now.year*10000 + now.month*100 + now.day)
         if date in player_hist:
             player_hist[date] += 1
         else:
