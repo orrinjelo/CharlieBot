@@ -134,7 +134,7 @@ class Roleplay(commands.Cog):
             user = ctx.guild.get_member_named(entry['name'])
             try:
                 username = user.nick
-            else:
+            except:
                 username = user.name
             await ctx.send('{} has {} XP.'.format(username, entry['xp']))
 
