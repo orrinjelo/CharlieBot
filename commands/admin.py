@@ -4,10 +4,24 @@ import random
 from discord.ext import commands
 from discord.utils import get
 from utils.checks import *
+from pymongo import MongoClient
 
 class Admin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        logger.debug('Connecting to Mongo...')
+        self.mongo_client = MongoClient()
+        self.rp_db = self.mongo_client['rp']
+        self.xp = self.rp_db.xp
+
+    @commands.command(pass_context=True)
+    @commands.has_role("Vanir")
+    async def eval(self, ctx, query: str):
+        try:
+            res = await eval(query)
+        except:
+            res = eval(query)
+        await ctx.send(pformat(res))
 
     @commands.command(aliases=["mute", "silence", "doom"])
     @commands.has_role("Aesir")

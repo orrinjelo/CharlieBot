@@ -19,10 +19,10 @@ class Roleplay(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.session = aiohttp.ClientSession(loop=self.bot.loop, headers={"User-Agent": "AppuSelfBot"})
-        logger.debug('Connecting to Mongo...')
         self.mongo_client = MongoClient()
-        self.xp_db = self.mongo_client['xp']
-        self.xp = self.xp_db.xp
+        self.rp_db = self.mongo_client['rp']
+        self.xp = self.rp_db.xp
+        self.characters = self.rp_db.characters
 
     async def log_post(self, message):
         player_id = hash(message.author)
@@ -81,6 +81,60 @@ class Roleplay(commands.Cog):
         self.xp.insert_one(ret)
         return ret
 
+    async def create_character(self, ctx=None, message=None, member=None):
+        if not message:
+            message = ctx.message
+        if not member:
+            member = message.author
+        player_id = hash(member)
+        player_name = str(member)
+        res = self.characters.find_one(
+            {
+                'name': player_name
+            }
+        )
+        if res:
+            channel = self.bot.get_channel(BOT_DEBUG_CHANNEL)
+            await channel.send('Error: {}({}) already exists in database'.format(player_name, player_id))
+            return res
+        ret = {
+            'id': player_id,
+            'name': player_name,
+            'character': {
+                'base_skills': {
+                    'INT': 0,
+                    'BRA': 0,
+                    'PRE': 0,
+                    'WIL': 0,
+                    'AGI': 0,
+                    'CUN': 0
+                },
+                'ranks': {
+                    'astrogation': 0,
+                    'athletics': 0,
+                    'brawl': 0,
+                    'charm': 0,
+                    'coercion': 0,
+                    'computers': 0,
+                    'cool': 0,
+                    'coordination': 0,
+                    'cybernetics': 0,
+                    'deception': 0,
+                    'discipline': 0,
+                    'education': 0,
+                    'gunnery': 0,
+                    'knowledge core worlds': 0,
+                    'knowledge lore': 0,
+                    'knowledge outer rim': 0,
+                    'leadership': 0,
+                    'lightsaber': 0,
+                    # More to come
+                }
+            }
+        }
+        self.characters.insert_one(ret)
+        return ret
+
     async def get_player_by_ctx(self, ctx):
         player_id = hash(ctx.message.author)
         res = self.xp.find_one(
@@ -111,15 +165,6 @@ class Roleplay(commands.Cog):
         if not res:
             res = await self.create_xp(ctx=ctx, member=member)
         return res
-
-    @commands.command(pass_context=True)
-    @commands.has_role("Vanir")
-    async def eval(self, ctx, query: str):
-        try:
-            res = await eval(query)
-        except:
-            res = eval(query)
-        await ctx.send(pformat(res))
 
     @commands.command(pass_context=True, aliases=['listxpraw'])
     async def xplistraw(self, ctx):
