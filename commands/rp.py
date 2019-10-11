@@ -122,10 +122,21 @@ class Roleplay(commands.Cog):
         await ctx.send(pformat(res))
 
     @commands.command(pass_context=True, aliases=['listxp'])
-    async def xplist(self, ctx):
+    async def xplistraw(self, ctx):
         res = self.xp.find()
         for entry in res:
             await ctx.send(pformat(entry))
+
+    @commands.command(pass_context=True, aliases=['listxp'])
+    async def xplist(self, ctx):
+        res = self.xp.find()
+        for entry in res:
+            user = ctx.guild.get_member_named(entry['name'])
+            try:
+                username = user.nick
+            else:
+                username = user.name
+            await ctx.send('{} has {} XP.'.format(username, entry['xp']))
 
     @commands.command(pass_context=True)
     @commands.has_role("Vanir")
