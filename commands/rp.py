@@ -82,8 +82,7 @@ class Roleplay(commands.Cog):
         return ret
 
     async def create_character(self, ctx, name):
-        if not message:
-            message = ctx.message
+        message = ctx.message
         member = message.author
         player_id = hash(member)
         player_name = str(member)
