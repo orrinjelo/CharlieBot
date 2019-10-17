@@ -26,7 +26,14 @@ class Admin(commands.Cog):
             res = await eval(query)
         except:
             res = eval(query)
-        await ctx.send(pformat(res))
+        try:
+            await ctx.send(pformat(res))
+        except:
+            try:
+                await ctx.send(str(pformat(res))[:2000])
+            except:
+                await ctx.send(str(res)[:2000])
+
 
     @commands.command(aliases=["mute", "silence", "doom"])
     @commands.has_role("Aesir")
