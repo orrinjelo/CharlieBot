@@ -110,7 +110,7 @@ class Roleplay(commands.Cog):
             'character': {
                 'name': char_name,
                 'career': '',
-                'specializations': []
+                'specializations': [],
                 'species': '',
                 'base_skills': {
                     'INT': 0,
