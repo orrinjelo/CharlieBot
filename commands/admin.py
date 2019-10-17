@@ -6,6 +6,8 @@ from discord.utils import get
 from utils.checks import *
 from pymongo import MongoClient
 
+logger = logging.getLogger('discord')
+
 class Admin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
