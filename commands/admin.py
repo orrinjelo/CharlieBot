@@ -6,6 +6,8 @@ from discord.utils import get
 from utils.checks import *
 from pymongo import MongoClient
 import logging
+from pprint import pformat
+
 
 logger = logging.getLogger('discord')
 
