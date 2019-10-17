@@ -238,16 +238,19 @@ class Roleplay(commands.Cog):
         #     avi = 'https://images.discordapp.net/avatars/' + str(user.avatar_url)[35:-10]
         # else:
         #     avi = user.avatar_url        
-        if embed_perms(ctx.message):
-            em = discord.Embed(colour=0x708DD0)
-            em.add_field(name='Player', value=char['player_name'], inline=True)
-            em.add_field(name='Character', value=char['character']['name'], inline=True)
-            em.add_field(name='Characteristics', value=' '.join(['{0}:{1}'.format(s, char['character']['base_skills'][s]) for s in char['character']['base_skills']]), inline=True)
-            # em.set_thumbnail(url=avi)
-            await ctx.send(embed=em)
+        if char:
+            if embed_perms(ctx.message):
+                em = discord.Embed(colour=0x708DD0)
+                em.add_field(name='Player', value=char['name'], inline=True)
+                em.add_field(name='Character', value=char['character']['name'], inline=True)
+                em.add_field(name='Characteristics', value=' '.join(['{0}:{1}'.format(s, char['character']['base_skills'][s]) for s in char['character']['base_skills']]), inline=True)
+                # em.set_thumbnail(url=avi)
+                await ctx.send(embed=em)
+            else:
+                msg = 'Unimplemented'
+                await ctx.send(msg)        
         else:
-            msg = 'Unimplemented'
-            await ctx.send(msg)        
+            await ctx.send('Character not found.')
 
     async def get_player_by_ctx(self, ctx):
         player_id = hash(ctx.message.author)
