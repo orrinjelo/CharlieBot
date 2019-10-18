@@ -292,7 +292,8 @@ class Roleplay(commands.Cog):
     async def char(self, ctx):
         message = ctx.message
         member = message.author
-        player_id = hash(member)        
+        player_id = hash(member)
+        await ctx.send('Player id: {}'.format(player_id))     
         await self.report_characters_pid(ctx, player_id)
 
     @commands.command(pass_context=True, aliases=['listxpraw'])
