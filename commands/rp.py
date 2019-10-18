@@ -242,34 +242,19 @@ class Roleplay(commands.Cog):
         if char:
             if embed_perms(ctx.message):
                 em = discord.Embed(colour=0x708DD0)
-                try:
-                    em.add_field(name='Player', value=char['name'], inline=True)
-                except:
-                    pass
-                try:
-                    em.add_field(name='Character', value=char['character']['name'], inline=True)
-                except:
-                    pass
-                try:
-                    em.add_field(name='Characteristics', value=' '.join(['**{0}**:{1}'.format(s, char['character']['base_skills'][s]) for s in char['character']['base_skills']]), inline=True)
-                except:
-                    pass
-                try:
-                    em.add_field(name='Career', value=char['character']['career'], inline=True)
-                except:
-                    pass
-                try:
-                    em.add_field(name='Species', value=char['character']['species'], inline=True)
-                except:
-                    pass
-                try:
-                    em.add_field(name='Specializations', value=''+', '.join(char['character']['specializations']), inline=True)
-                except:
-                    pass
-                try:
-                    em.add_field(name='Appearance', value=char['character']['appearance_brief'], inline=True)
-                except:
-                    pass
+                name = char['name'] if char['name'] else 'None'
+                character = char['character']['name'] if char['character']['name'] else 'None'
+                career = char['character']['career'] if char['character']['career'] else 'None'
+                specializations = ', '.join(char['character']['specializations']) if char['character']['specializations'] else 'None'
+                species = char['character']['species'] if char['character']['species'] else 'None'
+                appearance = char['character']['appearance_brief'] if char['character']['appearance_brief'] else 'None'
+                em.add_field(name='Player', value=name, inline=True)
+                em.add_field(name='Character', value=character, inline=True)
+                em.add_field(name='Characteristics', value=' '.join(['**{0}**:{1}'.format(s, char['character']['base_skills'][s]) for s in char['character']['base_skills']]), inline=True)
+                em.add_field(name='Career', value=career, inline=True)
+                em.add_field(name='Species', value=species, inline=True)
+                em.add_field(name='Specializations', value=specializations, inline=True)
+                em.add_field(name='Appearance', value=appearance, inline=True)
                 try:
                     em.set_thumbnail(url=char['character']['thumbnail'])
                 except:
