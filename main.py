@@ -99,6 +99,8 @@ class SirCharles(Bot):
         em.add_field(name="Invoker", value="{}".format(ctx.author))
 
         await channel.send(embed=em)
+
+        await ctx.message.add_reaction(':warning:')
            
 
     async def on_error(self, event, *args, **kwargs):
