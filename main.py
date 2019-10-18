@@ -100,7 +100,7 @@ class SirCharles(Bot):
 
         await channel.send(embed=em)
 
-        await ctx.message.add_reaction(':warning:')
+        await ctx.message.add_reaction('⚠️')
            
 
     async def on_error(self, event, *args, **kwargs):
