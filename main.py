@@ -63,6 +63,9 @@ class SirCharles(Bot):
         if 'cat' in message.content.lower() or 'kitty' in message.content.lower():
             await message.add_reaction("🐈")
 
+        if 'warn' in message.content.lower():
+            await message.add_reaction("⚠")
+
         # if message.channel.id == SELMA_TEST_CHANNEL:
         #     try:
         #         await self.selma.request(message.content)
@@ -100,7 +103,7 @@ class SirCharles(Bot):
 
         await channel.send(embed=em)
 
-        await ctx.message.add_reaction('⚠️')
+        await ctx.message.add_reaction('<:warning:634838200686215178>')
            
 
     async def on_error(self, event, *args, **kwargs):
