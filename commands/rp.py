@@ -242,13 +242,34 @@ class Roleplay(commands.Cog):
         if char:
             if embed_perms(ctx.message):
                 em = discord.Embed(colour=0x708DD0)
-                em.add_field(name='Player', value=char['name'], inline=True)
-                em.add_field(name='Character', value=char['character']['name'], inline=True)
-                em.add_field(name='Characteristics', value=' '.join(['**{0}**:{1}'.format(s, char['character']['base_skills'][s]) for s in char['character']['base_skills']]), inline=True)
-                em.add_field(name='Career', value=char['character']['career'], inline=True)
-                em.add_field(name='Species', value=char['character']['species'], inline=True)
-                em.add_field(name='Specializations', value=''+', '.join(char['character']['specializations']), inline=True)
-                em.add_field(name='Appearance', value=char['character']['appearance_brief'], inline=True)
+                try:
+                    em.add_field(name='Player', value=char['name'], inline=True)
+                except:
+                    pass
+                try:
+                    em.add_field(name='Character', value=char['character']['name'], inline=True)
+                except:
+                    pass
+                try:
+                    em.add_field(name='Characteristics', value=' '.join(['**{0}**:{1}'.format(s, char['character']['base_skills'][s]) for s in char['character']['base_skills']]), inline=True)
+                except:
+                    pass
+                try:
+                    em.add_field(name='Career', value=char['character']['career'], inline=True)
+                except:
+                    pass
+                try:
+                    em.add_field(name='Species', value=char['character']['species'], inline=True)
+                except:
+                    pass
+                try:
+                    em.add_field(name='Specializations', value=''+', '.join(char['character']['specializations']), inline=True)
+                except:
+                    pass
+                try:
+                    em.add_field(name='Appearance', value=char['character']['appearance_brief'], inline=True)
+                except:
+                    pass
                 try:
                     em.set_thumbnail(url=char['character']['thumbnail'])
                 except:
