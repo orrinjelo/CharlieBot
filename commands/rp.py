@@ -220,8 +220,9 @@ class Roleplay(commands.Cog):
                 'max_encumberance': 0,
                 'total_xp': 0,
                 'available_xp': 0,
-                'history_brief': 0,
-                'appearance_brief': 0
+                'history_brief': '',
+                'appearance_brief': '',
+                'thumbnail': ''
             }
         }
         self.characters.insert_one(ret)
@@ -243,8 +244,15 @@ class Roleplay(commands.Cog):
                 em = discord.Embed(colour=0x708DD0)
                 em.add_field(name='Player', value=char['name'], inline=True)
                 em.add_field(name='Character', value=char['character']['name'], inline=True)
-                em.add_field(name='Characteristics', value=' '.join(['{0}:{1}'.format(s, char['character']['base_skills'][s]) for s in char['character']['base_skills']]), inline=True)
-                # em.set_thumbnail(url=avi)
+                em.add_field(name='Characteristics', value=' '.join(['**{0}**:{1}'.format(s, char['character']['base_skills'][s]) for s in char['character']['base_skills']]), inline=True)
+                em.add_field(name='Career', value=char['character']['career'], inline=True)
+                em.add_field(name='Species', value=char['character']['species'], inline=True)
+                em.add_field(name='Specializations', value=', '.join(char['character']['specializations']), inline=True)
+                em.add_field(name='Appearance', value=char['character']['appearance_brief'], inline=True)
+                try:
+                    em.set_thumbnail(url=char['character']['thumbnail'])
+                except:
+                    pass
                 await ctx.send(embed=em)
             else:
                 msg = 'Unimplemented'
