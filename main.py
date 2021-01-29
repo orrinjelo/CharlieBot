@@ -12,6 +12,7 @@ from systemd.journal import JournaldLogHandler
 from utils.spiffyText import spiff
 import logging
 import traceback
+from datetime import datetime as dt
 
 logger = logging.getLogger('discord')
 
