@@ -5,8 +5,8 @@ import asyncio
 from config.secrets import *
 from commands.basic import *
 from commands.admin import *
-from commands.rp import *
-from selma.selma_client import Client as SelmaClient
+#from commands.rp import *
+#from selma.selma_client import Client as SelmaClient
 from utils.checks import load_config
 from systemd.journal import JournaldLogHandler
 from utils.spiffyText import spiff
@@ -78,9 +78,6 @@ class SirCharles(Bot):
 
         #         await self.selma.request(message.content)
 
-        if message.channel.id in TRACK_XP:
-            await self.cogs['Roleplay'].log_post(message)
-
         await self.process_commands(message)    
 
     # async def on_message_edit(self, before, after):
@@ -121,7 +118,7 @@ bot = SirCharles(load_config()['cmd_prefix'])
 
 bot.add_cog(Basic(bot))
 bot.add_cog(Admin(bot))
-bot.add_cog(Roleplay(bot))
+#bot.add_cog(Roleplay(bot))
 
 @bot.command()
 async def add(ctx, left: int, right: int):

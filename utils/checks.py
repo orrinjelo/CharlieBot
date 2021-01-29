@@ -16,8 +16,10 @@ from urllib.parse import quote as uriquote
 
 
 # @common.deprecation_warn()
+current_path = os.path.split(os.path.realpath(__file__))[0]
+
 def load_config():
-    with open('config/config.json', 'r') as f:
+    with open('{}/../config/config.json'.format(current_path), 'r') as f:
         return json.load(f)
 
 
