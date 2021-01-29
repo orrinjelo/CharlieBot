@@ -66,17 +66,27 @@ class SirCharles(Bot):
         if 'warn' in message.content.lower():
             await message.add_reaction("⚠")
 
-        # if message.channel.id == SELMA_TEST_CHANNEL:
-        #     try:
-        #         await self.selma.request(message.content)
-        #     except:
-        #         self.selma = SelmaClient('wizard')
-        #         logger.info('Connecting to Selma...')
-        #         selma_channel = self.get_channel(SELMA_TEST_CHANNEL)
-        #         self.selma.connect(selma_channel.send)
-        #         logger.info('Connected to Selma!')
-
-        #         await self.selma.request(message.content)
+        try:
+            try:
+                command = message.content.split()[0]
+            except IndexError:
+                command = message.content
+            logger.info('Got {}'.format(command))
+            res = self.com.find_one(
+                {
+                    "tag": command
+                }
+            )
+            if res:
+                if res['replacement']:
+                    await message.channel.send('{}'.format(res['replacement']))
+                    return
+            else:
+                logger.info('but it doesn\'t exist in the database.')
+        except errors.ServerSelectionTimeoutError:
+            logger.error('Cannot connect to MongoDB')
+        except Exception as e:
+            logger.error('{}'.format(e))
 
         await self.process_commands(message)    
 
