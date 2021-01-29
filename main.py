@@ -60,9 +60,9 @@ class SirCharles(Bot):
             await guild.system_channel.send(to_send)
 
     async def on_message(self, message):
-        ret = super(Bot, self).on_message(message)
+        #ret = super(Bot, self).on_message(message)
         if message.author.id == CHARLIE_ID: # Charlie
-            return ret
+            return None #ret
 
         if 'cat' in message.content.lower() or 'kitty' in message.content.lower():
             await message.add_reaction("🐈")
