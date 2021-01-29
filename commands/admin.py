@@ -16,8 +16,8 @@ class Admin(commands.Cog):
         self.bot = bot
         logger.debug('Connecting to Mongo...')
         self.mongo_client = MongoClient()
-        self.rp_db = self.mongo_client['rp']
-        self.xp = self.rp_db.xp
+        self.commands_db = self.mongo_client['commands']
+        self.com = self.commands_db.com 
 
     @commands.command(pass_context=True)
     @commands.has_role("Vanir")
