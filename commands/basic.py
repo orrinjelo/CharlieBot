@@ -170,34 +170,34 @@ class Basic(commands.Cog):
 
     @commands.command()
     async def hello(self, ctx):
-        """Adds two numbers together."""
+        """Says hello."""
         await ctx.send("Hello!")
 
 
-    @commands.command()
-    async def foobar(self, ctx, a, b):
-        """Adds two numbers together."""
-        await ctx.send("A: {}".format(a))
-        await ctx.send("B: {}".format(b))
+    # @commands.command()
+    # async def foobar(self, ctx, a, b):
+    #     """Adds two numbers together."""
+    #     await ctx.send("A: {}".format(a))
+    #     await ctx.send("B: {}".format(b))
 
 
-    @commands.command()
-    async def fooby(self, ctx, a, *, b='none'):
-        """Adds two numbers together."""
-        await ctx.send("A: {}".format(a))
-        await ctx.send("B: {}".format(b))
+    # @commands.command()
+    # async def fooby(self, ctx, a, *, b='none'):
+    #     """Adds two numbers together."""
+    #     await ctx.send("A: {}".format(a))
+    #     await ctx.send("B: {}".format(b))
 
 
-    @commands.command()
-    async def fooboo(self, ctx, *, a='x', b='y'):
-        """Adds two numbers together."""
-        await ctx.send("A: {}".format(a))
-        await ctx.send("B: {}".format(b))
+    # @commands.command()
+    # async def fooboo(self, ctx, *, a='x', b='y'):
+    #     """Adds two numbers together."""
+    #     await ctx.send("A: {}".format(a))
+    #     await ctx.send("B: {}".format(b))
 
 
-    @commands.command()
-    async def farboo(self, ctx, *, a: int=0, b: str ='y'):
-        """Adds two numbers together."""
-        await ctx.send("A: {}".format(a))
-        await ctx.send("B: {}".format(b))
+    # @commands.command()
+    # async def farboo(self, ctx, *, a: int=0, b: str ='y'):
+    #     """Adds two numbers together."""
+    #     await ctx.send("A: {}".format(a))
+    #     await ctx.send("B: {}".format(b))
 

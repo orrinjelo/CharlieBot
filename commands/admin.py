@@ -112,3 +112,31 @@ class Admin(commands.Cog):
     @commands.has_role("Vanir")
     async def say(self, ctx, *message):
         await ctx.send(' '.join(message))
+
+    @commands.command(pass_context=True, aliases=['tag','new_command', 'map'])
+    @commands.has_role("Vanir")
+    async def add_command(self, ctx, command: str, *, new_command=''):
+        res = self.com.find_one(
+            {
+                "tag": command
+            }
+        )
+        if not res:
+            self.com.insert_one(
+                {
+                    'tag': command,
+                    'replacement': new_command
+                }
+            )
+        else:
+            self.com.update_one(
+                {
+                    "tag": command
+                },
+                {
+                    '$set': {
+                        'replacement': new_command
+                    }
+                }
+            )
+        await ctx.message.add_reaction("👍")
