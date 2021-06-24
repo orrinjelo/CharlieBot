@@ -4,10 +4,11 @@ import random
 from discord.ext import commands
 from discord.utils import get
 from utils.checks import *
+from config.secrets import WEBHOOK_URL
 from pymongo import MongoClient
 import logging
 from pprint import pformat
-
+from discord_webhook import DiscordWebhook
 
 logger = logging.getLogger('discord')
 
@@ -141,3 +142,11 @@ class Admin(commands.Cog):
                 }
             )
         await ctx.message.add_reaction("👍")
+
+
+    @commands.command()
+    @commands.has_role("Vanir")
+    async def webhook(self, ctx, *msg):
+        webhook = DiscordWebhook(url=WEBHOOK_URL, content=' '.join(msg))
+        webhook.execute()
+
