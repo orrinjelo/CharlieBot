@@ -111,6 +111,7 @@ class Admin(commands.Cog):
     @commands.command(pass_context=True, aliases=['talk'])
     @commands.has_role("Vanir")
     async def say(self, ctx, *message):
+        await ctx.message.delete()
         await ctx.send(' '.join(message))
 
     @commands.command(pass_context=True, aliases=['tag','new_command', 'map'])
